@@ -44,7 +44,6 @@
       var newTop;
       var newLeft;
 
-      console.log();
       if (verticalSeed === 1) {
         newTop = parseInt(this.elem.style.top) + 10;
       } else if (verticalSeed === 2) {
@@ -60,13 +59,11 @@
       if (newTop > 0 && newTop < DOMinterface.body.offsetHeight) {
         this.elem.style.top = newTop + 'px'
       } else {
-        console.log('Out of bounds vertically.');
       }
 
       if (newLeft > 0 && newLeft < DOMinterface.body.offsetWidth) {
         this.elem.style.left = newLeft + 'px'
       } else {
-        console.log('Out of bounds horizontallly.');
       }
     },
 
@@ -76,12 +73,10 @@
       var currentHeight;
       var currentWidth;
       if (growing === 1) {
-        console.log(growing);
         sizeChange = 1;
         currentHeight = this.elem.offsetHeight;
         this.elem.style.height = currentHeight + sizeChange + 'px';
         this.elem.style.width = currentHeight + sizeChange + 'px';
-        console.log('Grow to: ', this.elem.offsetHeight);
       }
     },
 
