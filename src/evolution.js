@@ -5,14 +5,31 @@
 (function AI (global, DOMinterface) {
   "use strict";
   console.log('Working.');
+  var objToString = Object.prototype.toString;
+  function getType (param) {
+    return objToString.call(param).replace('[object ', '').replace(']', '').toLowerCase();
+  }
 
   var cycles = {
 
     roster: [],
 
     register: function registerActor(actor) {
-      actor.init();
-      this.roster.unshift(actor);
+      var max;
+      var i;
+      console.log(actor);
+      console.log(getType(actor));
+      if (getType(actor) === 'array') {
+        max = actor.length;
+        i = 0;
+        for (i; i < max; i++) {
+          actor[i].init();
+          this.roster.unshift(actor);
+        }
+      } else {
+        actor.init();
+        this.roster.unshift(actor);
+      }
     },
 
     cycleLoop: function cycleLoop(context) {
@@ -30,7 +47,27 @@
 
   };
 
-  var creature = {
+  function Creature () {
+    if (!(this instanceof Creature)) {
+      return new Creature();
+    }
+
+
+    this.init = function creatureInit() {
+      this.elem = document.createElement('div');
+      this.elem.style.height = '1px';
+      this.elem.style.width = '1px';
+      this.elem.style.backgroundColor = 'red';
+      this.elem.style.position = 'absolute';
+      this.elem.style.top = DOMinterface.body.offsetHeight/2 + 'px';
+      this.elem.style.left = DOMinterface.body.offsetWidth/2 + 'px';
+      this.elem.style.borderRadius = '1000px';
+      this.elem.classList.add('creature');
+      DOMinterface.body.appendChild(this.elem);
+    };
+  }
+
+  Creature.prototype = {
     actions: [
       function live(context) {
         this.move();
@@ -57,12 +94,12 @@
       }
 
       if (newTop > 0 && newTop < DOMinterface.body.offsetHeight) {
-        this.elem.style.top = newTop + 'px'
+        this.elem.style.top = newTop + 'px';
       } else {
       }
 
       if (newLeft > 0 && newLeft < DOMinterface.body.offsetWidth) {
-        this.elem.style.left = newLeft + 'px'
+        this.elem.style.left = newLeft + 'px';
       } else {
       }
     },
@@ -90,25 +127,29 @@
 
     registerAction: function registerAction() {
 
-    },
-    init: function creatureInit() {
-      this.elem = document.createElement('div');
-      this.elem.style.height = '1px';
-      this.elem.style.width = '1px';
-      this.elem.style.backgroundColor = 'red';
-      this.elem.style.position = 'absolute';
-      this.elem.style.top = DOMinterface.body.offsetHeight/2 + 'px';
-      this.elem.style.left = DOMinterface.body.offsetWidth/2 + 'px';
-      this.elem.style.borderRadius = '1000px';
-      this.elem.classList.add('creature');
-      DOMinterface.body.appendChild(this.elem);
     }
-  }
+  };
 
 
   global.onload = function () {
+    var creature1 = Creature();
+    var creature2 = Creature();
+    var creature3 = Creature();
+    var creature4 = Creature();
+    var creature5 = Creature();
+    var creature6 = Creature();
+    var creature7 = Creature();
+    var creature8 = Creature();
+
     console.log('Loaded.');
-    cycles.register(creature);
+    cycles.register(creature1);
+    cycles.register(creature2);
+    cycles.register(creature3);
+    cycles.register(creature4);
+    cycles.register(creature5);
+    cycles.register(creature6);
+    cycles.register(creature7);
+    cycles.register(creature8);
     cycles.init();
     // listen('.communincation input');
   };
